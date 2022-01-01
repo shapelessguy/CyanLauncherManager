@@ -169,7 +169,10 @@ namespace CyanLauncherManager
             // app_picture
             //
             app_picture.Image = Properties.Resources.Icon;
-            if (application.icon_path != "") app_picture.Image = Bitmap.FromFile(application.icon_path);
+            if (application.icon_path != "")
+            {
+                if (File.Exists((application.icon_path))) app_picture.Image = Bitmap.FromFile(application.icon_path);
+            }
 
             app_picture.BackColor = Color.FromArgb(7, 7, 7);
             app_picture.Name = "app_picture" + Convert.ToString(index);
