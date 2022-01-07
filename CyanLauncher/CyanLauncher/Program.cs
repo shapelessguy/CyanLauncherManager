@@ -26,24 +26,15 @@ namespace CyanLauncher
         static public bool allowsDrag = true;
         static public bool vanish = true;
         static public bool canMove = false;
+        static public bool initial_call = true;
         /// <summary>
         /// Punto di ingresso principale dell'applicazione.
         /// </summary>
         [STAThread]
 
-        static void Main()
+        static void Main(string[] args)
         {
             string procName = Process.GetCurrentProcess().ProcessName;
-            //RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            //rk.DeleteValue(AppDomain.CurrentDomain.FriendlyName, false);
-            //rk.DeleteValue("CyanLauncher", false);
-            //rk.DeleteValue("Coding.exe", false);
-            //rk.DeleteValue("Editing.exe", false);
-            //rk.DeleteValue("Folders.exe", false);
-            //rk.DeleteValue("Projects.exe", false);
-            //rk.SetValue(procName, Application.ExecutablePath);
-            //MessageBox.Show(Convert.ToString(rk.GetValue(AppDomain.CurrentDomain.FriendlyName) == null));
-            //MessageBox.Show(Application.ExecutablePath);
 
             Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string path = Environment.CurrentDirectory;
@@ -52,6 +43,8 @@ namespace CyanLauncher
                 File.Create(Path.Combine(path, "called"));
                 return;
             }
+            foreach (string arg in args) if (arg == "-h") initial_call = false;
+            initial_call = false;
             programFolder = Environment.CurrentDirectory;
             string filename = Process.GetCurrentProcess().MainModule.FileName;
             INFO = new List<Info>();

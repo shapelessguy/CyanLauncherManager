@@ -158,6 +158,8 @@ namespace CyanLauncher
             relocate();
             this.SizeChanged += new EventHandler(this.Frontal_SizeChanged);
             SetForegroundWindow(this.Handle);
+            if (!Program.initial_call) WindowState = FormWindowState.Minimized;
+            Program.initial_call = true;
         }
 
         public void setOpacity(int level)

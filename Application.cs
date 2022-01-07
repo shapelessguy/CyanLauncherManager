@@ -36,6 +36,13 @@ namespace CyanLauncherManager
             }
         }
 
+        public void Start()
+        {
+            string link_path = Path.Combine(apps_path, name, name + ".lnk");
+            ProcessStartInfo info = new ProcessStartInfo(link_path, "-h");
+            Process.Start(info);
+        }
+
         private bool UpdateName(string new_name)
         {
             if (name == new_name) return true;

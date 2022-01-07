@@ -130,6 +130,12 @@ namespace CyanLauncherManager
                 string icon_path = Path.Combine(launcher_path, "__Icons__", id_icon + ".ico");
                 applications.Add(new LApplication(directory, icon_path, id_icon));
             }
+            if (!Program.initial_call)
+            {
+                foreach(LApplication app in applications) { app.Start(); }
+                Program.initial_call = true;
+                Console.WriteLine("Initial call");
+            }
             return applications;
         }
         private void createGraphicElements(List<LApplication> applications)

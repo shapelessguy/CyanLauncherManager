@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -10,15 +11,24 @@ namespace CyanLauncherManager
 {
     static class Program
     {
+        private static string appGuid = "c0a76b5a-12ab-45c5-b9d9-d693faa6e7b9";
+        public static bool initial_call = false;
         /// <summary>
         /// Punto di ingresso principale dell'applicazione.
         /// </summary>
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainWindow());
+            RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            rk.SetValue("CyanLaunchManager", Application.ExecutablePath);
+            using (System.Threading.Mutex mutex = new System.Threading.Mutex(false, "Global\\" + appGuid))
+            {
+                if (!mutex.WaitOne(0, false)) return;
+
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new MainWindow());
+            }
         }
         static public bool isIcon(string file)
         {
