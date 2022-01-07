@@ -77,12 +77,14 @@ namespace CyanLauncherManager
                 try {
                     id = Program.GenerateCausualString(10);
                     string new_icon_path = Path.Combine(apps_path, "__Icons__", id + ".ico");
+                    string redundant_icon_path = Path.Combine(apps_path, name, "icon.ico");
                     string reference_path = Path.Combine(apps_path, name, name + ".exe");
                     string loc_path = Path.Combine(apps_path, name, name + ".lnk");
                     if (Path.GetExtension(ico_path) == "ico") File.Copy(ico_path, new_icon_path); 
                     else PngIconConverter.Convert(ico_path, new_icon_path, 200);
                     using (StreamWriter stream = new StreamWriter(Path.Combine(apps_path, name, "id.txt"))) stream.Write(id);
                     new CreateLink(reference_path, loc_path, new_icon_path);
+                    File.Copy(new_icon_path, redundant_icon_path);
                 }
                 catch (Exception) { }
 
