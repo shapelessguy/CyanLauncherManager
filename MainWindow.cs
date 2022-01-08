@@ -18,9 +18,13 @@ namespace CyanLauncherManager
         List<LApplication> all_applications = new List<LApplication>();
         string cyanLauncher_corePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Launcher");
         string cyanLauncher_dataPath = "";
+        static public NotifyIcon notifyIcon;
+        static readonly IContainer componentsNotify = new Container();
+        static public bool close_for_real = false;
         public MainWindow()
         {
             InitializeComponent();
+            CreateNotify();
             app_panel.Visible = false;
 
             string programData_path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
@@ -45,6 +49,45 @@ namespace CyanLauncherManager
                 File.Copy(Path.Combine(cyanLauncher_corePath, "Icon.ico"), Path.Combine(cyanLauncher_iconsPath, "default.ico"));
             }
             ResetPanel();
+            WindowState = FormWindowState.Minimized;
+            ShowInTaskbar = false;
+            Hide();
+        }
+        void CreateNotify()
+        {
+            notifyIcon = new NotifyIcon(componentsNotify)
+            {
+                Icon = Properties.Resources.Icon1,
+                Text = "LauncherManager",
+                Visible = true,
+            };
+            TrayMenuContext();
+        }
+        void TrayMenuContext()
+        {
+            notifyIcon.ContextMenuStrip = new ContextMenuStrip();
+            notifyIcon.MouseDoubleClick += (o, e) => { OpenWindow(o, e); };
+            notifyIcon.ContextMenuStrip.Items.Add("Open", Properties.Resources.Icon, OpenWindow);
+            notifyIcon.ContextMenuStrip.Items.Add("Close", Properties.Resources.Icon, CloseWindow);
+        }
+
+        private void OpenWindow(object o, EventArgs e)
+        {
+            ShowInTaskbar = true;
+            Visible = true;
+            WindowState = FormWindowState.Normal;
+        }
+        private void CloseWindow(object o, EventArgs e)
+        {
+            close_for_real = true;
+            Close();
+        }
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!close_for_real) {
+                Visible = false;
+                e.Cancel = true;
+            } 
         }
 
         private void Copy(string path1, string path2, bool force)

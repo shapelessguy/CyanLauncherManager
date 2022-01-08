@@ -246,6 +246,7 @@
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CyanLauncher Manager";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.application_panel.ResumeLayout(false);
             this.app_panel.ResumeLayout(false);
             this.app_panel.PerformLayout();

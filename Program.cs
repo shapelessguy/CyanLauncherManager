@@ -1,10 +1,11 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CyanLauncherManager
@@ -13,6 +14,8 @@ namespace CyanLauncherManager
     {
         private static string appGuid = "c0a76b5a-12ab-45c5-b9d9-d693faa6e7b9";
         public static bool initial_call = false;
+        //static private Timer activation = new Timer() { Interval=20, Enabled=true};
+        static bool to_close = false;
         /// <summary>
         /// Punto di ingresso principale dell'applicazione.
         /// </summary>
@@ -23,13 +26,19 @@ namespace CyanLauncherManager
             rk.SetValue("CyanLaunchManager", Application.ExecutablePath);
             using (System.Threading.Mutex mutex = new System.Threading.Mutex(false, "Global\\" + appGuid))
             {
+                Console.WriteLine("a");
                 if (!mutex.WaitOne(0, false)) return;
+                Console.WriteLine("b");
 
+                //activation.Tick += (o, e) => { };
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new MainWindow());
             }
         }
+
+        
+
         static public bool isIcon(string file)
         {
             if (file.Contains(".ico")) return true;

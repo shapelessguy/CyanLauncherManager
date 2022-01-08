@@ -38,6 +38,7 @@ namespace CyanLauncherManager
 
         public void Start()
         {
+            Program.KillProc(name);
             string link_path = Path.Combine(apps_path, name, name + ".lnk");
             ProcessStartInfo info = new ProcessStartInfo(link_path, "-h");
             Process.Start(info);

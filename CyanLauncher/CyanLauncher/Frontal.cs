@@ -115,23 +115,22 @@ namespace CyanLauncher
                 Interval = 5000,
             };
             cleaner.Tick += Clean;
-            calls = new Timer() { Enabled = true, Interval = 50 };
+            calls = new Timer() { Enabled = true, Interval = 30 };
             calls.Tick += (o, e) =>
             {
                 if (File.Exists(Path.Combine(Environment.CurrentDirectory, "called")))
                 {
-                    try { File.Delete(Path.Combine(Environment.CurrentDirectory, "called")); } 
-                    catch (Exception) { };
-
-                    
                     Visible = true;
-                    ShowInTaskbar = true;
                     WindowState = FormWindowState.Normal;
                     relocate();
                     SizeChanged += new EventHandler(this.Frontal_SizeChanged);
                     Focus(); 
                     SetForegroundWindow(this.Handle);
                     TopMost = true;
+                    ShowInTaskbar = true;
+
+                    try { File.Delete(Path.Combine(Environment.CurrentDirectory, "called")); }
+                    catch (Exception) { };
                 }
             };
 
@@ -411,6 +410,11 @@ namespace CyanLauncher
                 }
             }
         }
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        static extern uint RegisterWindowMessage(string lpString);
+        static uint MESSAGE_ID = RegisterWindowMessage("MyUniqueMessageIdentifier");
+
         protected override void WndProc(ref Message message)
         {
             const int WM_SYSCOMMAND = 0x0112;
@@ -419,14 +423,14 @@ namespace CyanLauncher
             switch (message.Msg)
             {
                 case WM_SYSCOMMAND:
+                        if (!Program.canMove)
+                        {
+                            int command = message.WParam.ToInt32() & 0xfff0;
+                            if (command == SC_MOVE)
+                                return;
+                        }
+                        break;
 
-                    if (!Program.canMove)
-                    {
-                        int command = message.WParam.ToInt32() & 0xfff0;
-                        if (command == SC_MOVE)
-                            return;
-                    }
-                    break;
             }
 
             base.WndProc(ref message);

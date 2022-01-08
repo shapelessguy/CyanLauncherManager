@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -27,6 +28,15 @@ namespace CyanLauncher
         static public bool vanish = true;
         static public bool canMove = false;
         static public bool initial_call = true;
+
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr FindWindow(string lpClassName, String lpWindowName);
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, uint wMsg, IntPtr wParam, IntPtr lParam);
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        static extern uint RegisterWindowMessage(string lpString);
+
         /// <summary>
         /// Punto di ingresso principale dell'applicazione.
         /// </summary>
@@ -34,17 +44,23 @@ namespace CyanLauncher
 
         static void Main(string[] args)
         {
-            string procName = Process.GetCurrentProcess().ProcessName;
-
             Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string path = Environment.CurrentDirectory;
+
+            //uint id = RegisterWindowMessage("ActivateLauncher");
+            //Console.WriteLine
+            //IntPtr WindowToFind = FindWindow(null, path);
+            //Debug.Assert(WindowToFind != IntPtr.Zero);
+            //SendMessage(WindowToFind, id, IntPtr.Zero, IntPtr.Zero);
+            
+            string procName = Process.GetCurrentProcess().ProcessName;
+
             if (Process.GetProcessesByName(procName).Length > 1)
             {
                 File.Create(Path.Combine(path, "called"));
                 return;
             }
             foreach (string arg in args) if (arg == "-h") initial_call = false;
-            initial_call = false;
             programFolder = Environment.CurrentDirectory;
             string filename = Process.GetCurrentProcess().MainModule.FileName;
             INFO = new List<Info>();
