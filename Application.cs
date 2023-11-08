@@ -40,8 +40,15 @@ namespace CyanLauncherManager
         {
             Program.KillProc(name);
             string link_path = Path.Combine(apps_path, name, name + ".lnk");
-            ProcessStartInfo info = new ProcessStartInfo(link_path, "-h");
-            Process.Start(info);
+            Console.WriteLine(link_path);
+            try
+            {
+                ProcessStartInfo info = new ProcessStartInfo(link_path, "-h");
+                Process.Start(info);
+            }
+            catch {
+                MessageBox.Show("Sorry man, this " + link_path + " path is nowhere to be found!");
+            }
         }
 
         private bool UpdateName(string new_name)

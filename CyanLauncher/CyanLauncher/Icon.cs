@@ -245,18 +245,32 @@ namespace CyanLauncher
                 }
                 if (aus)
                 {
-                    ProcessStartInfo info = new ProcessStartInfo(exePath);
-                    Process whatever = Process.Start(info);
+                    try
+                    {
+                        Console.WriteLine(exePath);
+                        ProcessStartInfo info = new ProcessStartInfo(exePath);
+                        Process whatever = Process.Start(info);
+                        // RunWOpriv.RunAsDesktopUser(exePath);
+                    }
+                    catch (Exception ex) { 
+                        MessageBox.Show("EXCEPTION:\n" + ex.Message); 
+                    }
                     
                 }
-                else { RunWOpriv.RunAsDesktopUser(exePath); Console.WriteLine(exePath); }
+                else { 
+                    RunWOpriv.RunAsDesktopUser(exePath); 
+                    Console.WriteLine(exePath); 
+                }
             }
 
             try
             {
                 if (Program.vanish) Program.frontal.Close();
             }
-            catch (Exception) { Console.WriteLine("EXC"); }
+            catch (Exception) 
+            { 
+                Console.WriteLine("EXC");
+            }
         }
         public static void Compress(string image_path, int width, int height, string dest_path = "")
         {

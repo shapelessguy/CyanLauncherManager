@@ -41,6 +41,7 @@
             this.newapp_name = new System.Windows.Forms.TextBox();
             this.newapp_picture = new System.Windows.Forms.PictureBox();
             this.update_btn = new System.Windows.Forms.Button();
+            this.startup_check = new System.Windows.Forms.CheckBox();
             this.application_panel.SuspendLayout();
             this.app_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.app_picture)).BeginInit();
@@ -232,12 +233,26 @@
             this.update_btn.UseVisualStyleBackColor = false;
             this.update_btn.Click += new System.EventHandler(this.update_btn_Click);
             // 
+            // startup_check
+            // 
+            this.startup_check.AutoSize = true;
+            this.startup_check.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.startup_check.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.startup_check.Location = new System.Drawing.Point(640, 94);
+            this.startup_check.Name = "startup_check";
+            this.startup_check.Size = new System.Drawing.Size(80, 21);
+            this.startup_check.TabIndex = 6;
+            this.startup_check.Text = "Startup";
+            this.startup_check.UseVisualStyleBackColor = true;
+            this.startup_check.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(756, 457);
+            this.Controls.Add(this.startup_check);
             this.Controls.Add(this.update_btn);
             this.Controls.Add(this.function_panel);
             this.Controls.Add(this.application_panel);
@@ -256,6 +271,7 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.newapp_picture)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -273,6 +289,7 @@
         private System.Windows.Forms.TextBox newapp_name;
         private System.Windows.Forms.PictureBox newapp_picture;
         private System.Windows.Forms.Button update_btn;
+        private System.Windows.Forms.CheckBox startup_check;
     }
 }
 

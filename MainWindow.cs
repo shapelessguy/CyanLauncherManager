@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -26,6 +27,7 @@ namespace CyanLauncherManager
             InitializeComponent();
             CreateNotify();
             app_panel.Visible = false;
+            this.startup_check.Checked = Properties.Settings.Default.startup;
 
             string programData_path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
             if (!Directory.Exists(Path.Combine(programData_path, "Cyan"))) {
@@ -422,6 +424,22 @@ namespace CyanLauncherManager
                 File.Delete(Path.Combine(cyanLauncher_dataPath, directory, directory + ".exe"));
                 File.Copy(Path.Combine(cyanLauncher_corePath, "CyanLauncher.exe"), 
                     Path.Combine(cyanLauncher_dataPath, directory, directory + ".exe"));
+            }
+        }
+
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.startup = this.startup_check.Checked;
+            Properties.Settings.Default.Save();
+            RegistryKey rk = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            if (this.startup_check.Checked)
+            {
+                rk.SetValue("CyanLauncherManager", Application.ExecutablePath);
+            }
+            else
+            {
+                rk.DeleteValue("CyanLauncherManager", false);
             }
         }
     }
