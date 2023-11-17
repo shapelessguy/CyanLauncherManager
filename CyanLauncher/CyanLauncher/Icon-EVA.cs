@@ -229,7 +229,6 @@ namespace CyanLauncher
         {
             if (Directory.Exists(exePath))
             {
-                Console.WriteLine("Executing '" + exePath + "' from explorer.exe");
                 Process.Start("explorer.exe", exePath);
             }
             else
@@ -246,14 +245,21 @@ namespace CyanLauncher
                 }
                 if (aus)
                 {
-                    Console.WriteLine("Executing '" + exePath + "' as admin user");
-                    ProcessStartInfo info = new ProcessStartInfo(exePath);
-                    info.WorkingDirectory = Path.GetDirectoryName(exePath);
-                    Process.Start(info);
+                    try
+                    {
+                        Console.WriteLine(exePath);
+                        ProcessStartInfo info = new ProcessStartInfo(exePath);
+                        Process whatever = Process.Start(info);
+                        // RunWOpriv.RunAsDesktopUser(exePath);
+                    }
+                    catch (Exception ex) { 
+                        MessageBox.Show("EXCEPTION:\n" + ex.Message); 
+                    }
+                    
                 }
                 else { 
-                    Console.WriteLine("Executing '" + exePath + "' as restricted user");
-                    ProcessHelper.RunAsRestrictedUser(exePath);
+                    RunWOpriv.RunAsDesktopUser(exePath); 
+                    Console.WriteLine(exePath); 
                 }
             }
 
