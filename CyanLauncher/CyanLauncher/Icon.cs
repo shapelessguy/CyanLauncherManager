@@ -229,6 +229,7 @@ namespace CyanLauncher
         {
             if (Directory.Exists(exePath))
             {
+                Console.WriteLine("Executing '" + exePath + "' from explorer.exe");
                 Process.Start("explorer.exe", exePath);
             }
             else
@@ -245,11 +246,15 @@ namespace CyanLauncher
                 }
                 if (aus)
                 {
+                    Console.WriteLine("Executing '" + exePath + "' as admin user");
                     ProcessStartInfo info = new ProcessStartInfo(exePath);
-                    Process whatever = Process.Start(info);
-                    
+                    info.WorkingDirectory = Path.GetDirectoryName(exePath);
+                    Process.Start(info);
                 }
-                else { RunWOpriv.RunAsDesktopUser(exePath); Console.WriteLine(exePath); }
+                else { 
+                    Console.WriteLine("Executing '" + exePath + "' as restricted user");
+                    ProcessHelper.RunAsRestrictedUser(exePath);
+                }
             }
 
             try

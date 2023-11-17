@@ -82,7 +82,7 @@
     <Compile Include="PngIconConverter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RunWOpriv.cs" />
+    <Compile Include="ProcessHelper.cs" />
     <EmbeddedResource Include="AddIcon.resx">
       <DependentUpon>AddIcon.cs</DependentUpon>
     </EmbeddedResource>
