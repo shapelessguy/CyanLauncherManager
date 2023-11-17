@@ -247,9 +247,15 @@ namespace CyanLauncher
                 if (aus)
                 {
                     Console.WriteLine("Executing '" + exePath + "' as admin user");
-                    ProcessStartInfo info = new ProcessStartInfo(exePath);
-                    info.WorkingDirectory = Path.GetDirectoryName(exePath);
-                    Process.Start(info);
+                    Process process = new Process()
+                    {
+                        StartInfo = new ProcessStartInfo(exePath)
+                        {
+                            WindowStyle = ProcessWindowStyle.Normal,
+                            WorkingDirectory = Path.GetDirectoryName(exePath)
+                        }
+                    };
+                    process.Start();
                 }
                 else { 
                     Console.WriteLine("Executing '" + exePath + "' as restricted user");
