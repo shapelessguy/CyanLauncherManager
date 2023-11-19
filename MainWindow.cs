@@ -424,7 +424,9 @@ namespace CyanLauncherManager
                 File.Delete(Path.Combine(cyanLauncher_dataPath, directory, directory + ".exe"));
                 File.Copy(Path.Combine(cyanLauncher_corePath, "CyanLauncher.exe"), 
                     Path.Combine(cyanLauncher_dataPath, directory, directory + ".exe"));
+                Console.WriteLine("File " + Path.Combine(cyanLauncher_dataPath, directory, directory + ".exe") + " updated.");
             }
+            MessageBox.Show("Launchers have been updated!");
         }
 
 
